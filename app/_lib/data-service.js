@@ -7,6 +7,9 @@ import { supabase } from '@/app/_lib/supabase';
 export async function getCabin(id) {
 	const { data, error } = await supabase.from('cabins').select('*').eq('id', id).single();
 
+	// NOTE For testing
+	// await new Promise(res => setTimeout(res, 2000));
+
 	if (error) {
 		console.error(error);
 		notFound();
@@ -123,6 +126,9 @@ export async function getBookedDatesByCabinId(cabinId) {
 
 export async function getSettings() {
 	const { data, error } = await supabase.from('settings').select('*').single();
+
+	// NOTE For testing
+	// await new Promise(res => setTimeout(res, 2000));
 
 	if (error) {
 		console.error(error);
