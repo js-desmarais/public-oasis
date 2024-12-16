@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import CabinList from '@/app/_components/CabinList';
 import Spinner from '@/app/_components/Spinner';
 import Filter from '@/app/_components/Filter';
+import ReservationReminder from '../_components/ReservationReminder';
 
 // NOTE this is no-longer required sine the page is now dynamic, after including the searchParams.
 // export const revalidate = 900; // NOTE always in seconds
@@ -31,6 +32,7 @@ export default function Page({ searchParams }) {
 
 			<Suspense fallback={<Spinner />} key={filter}>
 				<CabinList filter={filter} />
+				<ReservationReminder />
 			</Suspense>
 		</div>
 	);
