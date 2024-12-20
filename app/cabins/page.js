@@ -5,7 +5,7 @@ import Spinner from '@/app/_components/Spinner';
 import Filter from '@/app/_components/Filter';
 import ReservationReminder from '../_components/ReservationReminder';
 
-// NOTE this is no-longer required sine the page is now dynamic, after including the searchParams.
+// NOTE this is no-longer required since the page is now dynamic, after including the searchParams.
 // export const revalidate = 900; // NOTE always in seconds
 
 export const metadata = {
