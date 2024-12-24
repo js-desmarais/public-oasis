@@ -38,6 +38,11 @@ export async function updateGuest(formData) {
 }
 
 export async function deleteReservation(bookingId) {
+	// NOTE For testing
+	// await new Promise(res => setTimeout(res, 2000));
+	//FIXME for testing
+	// throw new Error();
+
 	const session = await auth();
 	if (!session) throw new Error('You must be logged in!');
 
