@@ -7,14 +7,6 @@ import { auth, signIn, signOut } from '@/app/_lib/auth';
 import { supabase } from '@/app/_lib/supabase';
 import { getBookings } from '@/app/_lib/data-service';
 
-export async function signInAction() {
-	await signIn('google', { redirectTo: '/account' });
-}
-
-export async function signOutAction() {
-	await signOut({ redirectTo: '/' });
-}
-
 export async function updateGuest(formData) {
 	const session = await auth();
 	if (!session) throw new Error('You must be logged in!');
@@ -37,12 +29,34 @@ export async function updateGuest(formData) {
 	revalidatePath('/account/profile');
 }
 
-export async function deleteReservation(bookingId) {
-	// NOTE For testing
-	// await new Promise(res => setTimeout(res, 2000));
-	//FIXME for testing
-	// throw new Error();
+export async function createBooking(bookingData, formData) {
+	const session = await auth();
+	if (!session) throw new Error('You must be logged in!');
 
+	const newBooking = {
+		...bookingData,
+		guestId: session.user.guestId,
+		numGuests: Number(formData.get('numGuests')),
+		observations: formData.get('observations').slice(0, 1000),
+		extrasPrice: 0,
+		totalPrice: bookingData.cabinPrice,
+		isPaid: false,
+		hasBreakfast: false,
+		status: 'unconfirmed',
+	};
+
+	// FIXME: real-world app should validate with the server that the dates are available (not only on client side)
+	const { data, error } = await supabase.from('bookings').insert([newBooking]);
+
+	if (error) {
+		console.error(error);
+		throw new Error('Booking could not be created');
+	}
+
+	revalidatePath(`/cabins/${bookingData.cabinId}`);
+}
+
+export async function deleteBooking(bookingId) {
 	const session = await auth();
 	if (!session) throw new Error('You must be logged in!');
 
@@ -59,7 +73,7 @@ export async function deleteReservation(bookingId) {
 	revalidatePath('/account/reservations');
 }
 
-export async function updateReservation(formData) {
+export async function updateBooking(formData) {
 	const bookingId = Number(formData.get('bookingId'));
 
 	// Authentication
@@ -95,4 +109,12 @@ export async function updateReservation(formData) {
 
 	// Redirecting
 	redirect('/account/reservations');
+}
+
+export async function signInAction() {
+	await signIn('google', { redirectTo: '/account' });
+}
+
+export async function signOutAction() {
+	await signOut({ redirectTo: '/' });
 }

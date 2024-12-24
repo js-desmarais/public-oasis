@@ -2,7 +2,7 @@
 
 import { useOptimistic } from 'react';
 import ReservationCard from './ReservationCard';
-import { deleteReservation } from '@/app/_lib/actions';
+import { deleteBooking } from '@/app/_lib/actions';
 
 export default function ReservationList({ bookings }) {
 	const [optimisticBookings, optimisticDelete] = useOptimistic(
@@ -14,7 +14,7 @@ export default function ReservationList({ bookings }) {
 
 	async function handleDelete(bookingId) {
 		optimisticDelete(bookingId); // NOTE invokes the optimistic function to update the UI
-		await deleteReservation(bookingId); // NOTE actually deletes the booking from the database
+		await deleteBooking(bookingId); // NOTE actually deletes the booking from the database
 	}
 
 	return (
