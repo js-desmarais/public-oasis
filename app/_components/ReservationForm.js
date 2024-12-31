@@ -20,7 +20,6 @@ function ReservationForm({ cabin, user }) {
 		numNights,
 		cabinPrice,
 		cabinId: id,
-		// guestId: user.guestId, //FIXME is it a bad idea to get it here for auth purposes?
 	};
 
 	// NOTE: Here we bind the new 'this' keyword to 'null' and pass in the additional data. This is received as the first argument in the function.
@@ -83,8 +82,6 @@ function ReservationForm({ cabin, user }) {
 				</div>
 
 				<div className='flex justify-end items-center gap-6'>
-					<p className='text-primary-300 text-base'>Start by selecting dates</p>
-
 					{!(startDate && endDate) ? (
 						<p className='text-primary-300 text-base'>Start by selecting dates</p>
 					) : (
